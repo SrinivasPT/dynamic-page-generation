@@ -5,9 +5,11 @@ import { InputControlSetting } from '../controls/input.component';
 @Component({
   selector: 'edge-section-builder',
   template: `
-    <ng-container *ngFor="let control of controls">
-      <edge-input [form]="form" [control]="control"></edge-input>
-    </ng-container>
+    <div class="d-flex flex-wrap">
+      <ng-container *ngFor="let control of controls">
+        <edge-input class="col-md-3" [form]="form" [control]="control"></edge-input>
+      </ng-container>
+    </div>
   `
 })
 export class SectionBuilderComponent implements OnInit {

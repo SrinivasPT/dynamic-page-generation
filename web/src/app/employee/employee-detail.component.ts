@@ -5,8 +5,10 @@ import { InputControlService } from 'projects/edge/src/public-api';
 @Component({
   selector: 'app-employee-detail',
   template: `
-    <p>Employee Detail</p>
-    <edge-section-builder [form]="form" [controls]="this.pageConfig.sections[0].fields"></edge-section-builder>
+    <form [formGroup]="form" class="k-form">
+      <p>Employee Detail</p>
+      <edge-section-builder [form]="form" [controls]="this.pageConfig.sections[0].fields"></edge-section-builder>
+    </form>
   `
 })
 export class EmployeeDetailComponent implements OnInit {
@@ -68,7 +70,6 @@ export class EmployeeDetailComponent implements OnInit {
       state: 'TELANGANA'
     };
 
-    //Test Comments 1
     this.pageConfig.sections[0].fields.map(e => (e = this.inputControlService.sanitizeInputControlSetting(e)));
   }
 }
