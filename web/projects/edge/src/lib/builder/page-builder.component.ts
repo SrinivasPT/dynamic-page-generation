@@ -21,8 +21,9 @@ export class PageConfig {
         <ng-container *ngIf="section.type === 'GRID'">
           <kendo-panelbar class="mb-3">
             <kendo-panelbar-item [title]="section.name" expanded="true">
-              <edge-grid [gridSettings]="gridSettings.get(section.name)" [gridConfig]="section"></edge-grid>
-              <ng-template kendoPanelBarContent> </ng-template>
+              <ng-template kendoPanelBarContent>
+                <edge-grid [gridSettings]="gridSettings.get(section.name)" [gridConfig]="section"></edge-grid
+              ></ng-template>
             </kendo-panelbar-item>
           </kendo-panelbar>
         </ng-container>

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { filter, identity, isNil } from 'ramda';
+import { identity, isNil } from 'ramda';
 import { InputControlSetting } from '../controls/input.component';
 
 export class SectionConfig {
@@ -16,11 +16,11 @@ export class SectionConfig {
       <kendo-panelbar-item [title]="section.name" expanded="true">
         <ng-template kendoPanelBarContent>
           <fieldset>
-            <div class="d-flex flex-wrap">
+            <span class="d-flex flex-wrap">
               <ng-container *ngFor="let control of section.controls">
                 <edge-input class="col-md-3" [form]="sectionFormGroup" [control]="control"></edge-input>
               </ng-container>
-            </div>
+            </span>
           </fieldset>
         </ng-template>
       </kendo-panelbar-item>
@@ -41,7 +41,7 @@ export class SectionBuilderComponent implements OnInit {
 
   createFormGroup(section: SectionConfig): FormGroup {
     const formControls = {};
-    section.controls = filter(control => control.permission !== 'HIDDEN', section.controls);
+    // section.controls = filter(control => control.permission !== 'HIDDEN', section.controls);
     section.controls.forEach(control => (formControls[control.formControlName] = this.createFormControl(control)));
     return new FormGroup(formControls);
   }

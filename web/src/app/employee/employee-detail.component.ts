@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { PageConfig } from 'projects/edge/src/lib/builder/page-builder.component';
 import { GridSetting } from 'projects/edge/src/lib/controls/grid.component';
 import { InputControlService } from 'projects/edge/src/public-api';
-import { identity, Observable, of } from 'rxjs';
+import { identity } from 'ramda';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-detail',
@@ -12,7 +15,9 @@ import { identity, Observable, of } from 'rxjs';
       <p>Employee Detail</p>
       <edge-page-builder [form]="form" [pageConfig]="pageConfig" [gridSettings]="gridSettings"></edge-page-builder>
     </form>
+    <p>{{ form.value | json }}</p>
   `
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmployeeDetailComponent implements OnInit {
   form: FormGroup;
@@ -20,18 +25,32 @@ export class EmployeeDetailComponent implements OnInit {
   pageConfig: PageConfig;
   gridSettings: Map<string, GridSetting> = new Map();
 
-  constructor(private fb: FormBuilder, private inputControlService: InputControlService) {}
+  constructor(private fb: FormBuilder, private inputControlService: InputControlService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.form = this.fb.group({});
+    this.form = this.fb.group({ dummy: 'Test' });
     this.getPageConfig();
     this.generateGridSettings();
 
-    this.loadData().subscribe(data => {
-      this.data = data;
+    this.route.data.subscribe(data => {
+      this.data = data.employee;
       this.form.patchValue(this.data);
       this.updateGridSettings();
     });
+
+    // this.loadData().subscribe(data => {
+    //   this.data = data;
+    //   this.form.patchValue(this.data);
+    //   this.updateGridSettings();
+    // });
+
+    // ngOnInit() {
+    //   this.route.data
+    //     .subscribe((data: { crisis: Crisis }) => {
+    //       this.editName = data.crisis.name;
+    //       this.crisis = data.crisis;
+    //     });
+    // }
   }
 
   generateGridSettings() {
@@ -104,7 +123,7 @@ export class EmployeeDetailComponent implements OnInit {
         firstName: 'Srinivas',
         lastName: 'Peeta',
         email: 'speeta@gmail.com',
-        dob: new Date(),
+        dob: new Date('1/1/2018'),
         country: 'INDIA',
         state: 'HYDERABAD'
       },
@@ -113,6 +132,6 @@ export class EmployeeDetailComponent implements OnInit {
         { addressLineOne: 'Vijaya Sai Residensy', addressLineTwo: 'Miyapur', city: 'Hyderabad', state: 'Telangana', country: 'India' },
         { addressLineOne: 'Rachel Terrace', addressLineTwo: 'Parcipenny', city: '', state: 'New Jersy', country: 'USA' }
       ]
-    });
+    }).pipe(delay(0));
   }
 }

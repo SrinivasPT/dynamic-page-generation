@@ -8,7 +8,7 @@ import { InputControlSetting } from './input.component';
 @Injectable({ providedIn: 'root' })
 export class InputControlService {
   lookup = {
-    country: [{ test: 'India', value: 'INDIA' }, { test: 'USA', value: 'USA' }],
+    country: [{ text: 'India', value: 'INDIA' }, { text: 'USA', value: 'USA' }],
     state: [
       { text: 'Amaravathi', value: 'AMARAVATHI', parent: 'INDIA' },
       { text: 'Hyderabad', value: 'HYDERABAD', parent: 'INDIA' },
@@ -38,10 +38,9 @@ export class InputControlService {
     section.columns.map(column => this.sanitizeColumnSetting(column));
   }
 
-  public sanitizeInputControlSetting(control: InputControlSetting): InputControlSetting {
+  public sanitizeInputControlSetting(control: InputControlSetting) {
     control.label = this.getLabel(control.label, control.name);
     control.formControlName = isNil(control.formControlName) ? control.name : control.formControlName;
-    return control;
   }
 
   public sanitizeColumnSetting(column: ColumnConfig) {}
